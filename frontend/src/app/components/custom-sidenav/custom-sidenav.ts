@@ -1,18 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, Input, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  EventEmitter,
+  Input,
+  Output,
+  signal,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { RouterModule } from '@angular/router';
+
+export type ViewKey = 'dashboard' | 'charts' | 'tables';
 
 export type MenuItem = {
   icon: string;
   label: string;
-  route: string;
+  key: ViewKey;
 };
 
 @Component({
   selector: 'app-custom-sidenav',
-  imports: [CommonModule, MatListModule, MatIconModule, RouterModule],
+  imports: [CommonModule, MatListModule, MatIconModule],
   templateUrl: './custom-sidenav.html',
   styleUrl: './custom-sidenav.scss',
 })
@@ -23,13 +31,26 @@ export class CustomSidenav {
     this.sideNavCollapsed.set(val);
   }
 
+  @Input({ required: true }) activeKey!: ViewKey;
+  @Output() select = new EventEmitter<ViewKey>();
+
   iconMargin = computed(() => (this.sideNavCollapsed() ? '12px' : '16px'));
 
   menuItems = signal<MenuItem[]>([
     {
       icon: 'dashboard',
       label: 'Dashboard',
-      route: '/dashboard',
+      key: 'dashboard',
+    },
+    {
+      icon: 'dashboard',
+      label: 'charts',
+      key: 'charts',
+    },
+    {
+      icon: 'dashboard',
+      label: 'tables',
+      key: 'tables',
     },
   ]);
 }

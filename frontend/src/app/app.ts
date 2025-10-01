@@ -10,19 +10,26 @@ import { RouterOutlet } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { DeviceService } from './services/device-service';
 import { Subscription } from 'rxjs';
+import { Dashboard } from "./pages/dashboard/dashboard";
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { Charts } from "./pages/charts/charts";
+import { Tables } from "./pages/tables/tables";
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet,
     MatToolbarModule,
     MatIconModule,
     MatSidenavModule,
     MatButtonModule,
     MatSlideToggleModule,
+    MatProgressBarModule,
     CustomSidenav,
-  ],
+    Dashboard,
+    Charts,
+    Tables
+],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -32,6 +39,7 @@ export class App {
   themeService = inject(ThemeService);
   collapsed = signal(true);
   isDesktop = signal(true);
+  selectedView = signal<'dashboard' | 'charts' | 'tables'>('dashboard');
   private breakpointSub?: Subscription;
 
   constructor(
