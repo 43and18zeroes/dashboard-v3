@@ -25,6 +25,16 @@ mat-sidenav-container {
   mat-sidenav-content {
     padding: 16px;
     box-sizing: border-box;
+
+    .page__enter {
+      opacity: 0;
+      animation: fade 150ms ease-out forwards;
+    }
+    @keyframes fade {
+      to {
+        opacity: 1;
+      }
+    }
   }
 }
 

@@ -10,10 +10,10 @@ import { RouterOutlet } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { DeviceService } from './services/device-service';
 import { Subscription } from 'rxjs';
-import { Dashboard } from "./pages/dashboard/dashboard";
+import { Dashboard } from './pages/dashboard/dashboard';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Charts } from "./pages/charts/charts";
-import { Tables } from "./pages/tables/tables";
+import { Charts } from './pages/charts/charts';
+import { Tables } from './pages/tables/tables';
 
 @Component({
   selector: 'app-root',
@@ -28,8 +28,8 @@ import { Tables } from "./pages/tables/tables";
     CustomSidenav,
     Dashboard,
     Charts,
-    Tables
-],
+    Tables,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -42,9 +42,7 @@ export class App {
   selectedView = signal<'dashboard' | 'charts' | 'tables'>('dashboard');
   private breakpointSub?: Subscription;
 
-  constructor(
-    private breakpointObserver: BreakpointObserver
-  ) {}
+  constructor(private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit() {
     this.themeService.initTheme();

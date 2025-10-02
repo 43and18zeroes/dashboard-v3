@@ -25,34 +25,28 @@
     [style.margin-left]="contentMarginLeft()"
     (touchend)="collapseSidenav()"
   >
-    <!-- DASHBOARD -->
-    @defer (when selectedView() === 'dashboard'; prefetch on idle) {
-    <app-dashboard />
+    @switch (selectedView()) { @case ('dashboard') { @defer (on immediate;
+    prefetch on idle) {
+    <app-dashboard class="page__enter"></app-dashboard>
     } @placeholder {
     <div class="p-6">Dashboard wird vorbereitet…</div>
-    } @loading {
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    } @error {
+    } @loading { <mat-progress-bar mode="indeterminate"></mat-progress-bar> }
+    @error {
     <div class="p-6 text-warn">Ups, Dashboard konnte nicht geladen werden.</div>
-    }
-
-    <!-- Beispiel für weitere „Pages“ -->
-    @defer (when selectedView() === 'charts'; prefetch on idle) {
-    <app-charts />
+    } } @case ('charts') { @defer (on immediate; prefetch on idle) {
+    <app-charts class="page__enter"></app-charts>
     } @placeholder {
-    <div class="p-6">Profil wird vorbereitet…</div>
-    } @loading {
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    } @error {
-    <div class="p-6 text-warn">Profil konnte nicht geladen werden.</div>
-    } @defer (when selectedView() === 'tables'; prefetch on idle) {
-    <app-tables />
+    <div class="p-6">Charts werden vorbereitet…</div>
+    } @loading { <mat-progress-bar mode="indeterminate"></mat-progress-bar> }
+    @error {
+    <div class="p-6 text-warn">Charts konnten nicht geladen werden.</div>
+    } } @case ('tables') { @defer (on immediate; prefetch on idle) {
+    <app-tables class="page__enter"></app-tables>
     } @placeholder {
-    <div class="p-6">Einstellungen werden vorbereitet…</div>
-    } @loading {
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    } @error {
-    <div class="p-6 text-warn">Einstellungen konnten nicht geladen werden.</div>
-    }
+    <div class="p-6">Tables werden vorbereitet…</div>
+    } @loading { <mat-progress-bar mode="indeterminate"></mat-progress-bar> }
+    @error {
+    <div class="p-6 text-warn">Tables konnten nicht geladen werden.</div>
+    } } }
   </mat-sidenav-content>
 </mat-sidenav-container>
