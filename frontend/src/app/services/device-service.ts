@@ -1,19 +1,35 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID, Renderer2, RendererFactory2 } from '@angular/core';
+import {
+  inject,
+  Injectable,
+  PLATFORM_ID,
+  Renderer2,
+  RendererFactory2,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs';
+import {
+  auditTime,
+  distinctUntilChanged,
+  filter,
+  fromEvent,
+  map,
+  of,
+  startWith,
+} from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DeviceService {
+  private platformId = inject(PLATFORM_ID);
   private renderer: Renderer2;
   isAndroid: boolean = false;
   isiPhone: boolean = false;
 
   constructor(
     rendererFactory: RendererFactory2,
-    @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
@@ -21,13 +37,14 @@ export class DeviceService {
     if (isPlatformBrowser(this.platformId)) {
       const userAgent = navigator.userAgent;
       this.isAndroid = /Android/i.test(userAgent);
-      this.isiPhone = /iPhone|iPad|iPod/i.test(userAgent) || /iOS/i.test(userAgent);
+      this.isiPhone =
+        /iPhone|iPad|iPod/i.test(userAgent) || /iOS/i.test(userAgent);
 
-      this.router.events.pipe(
-        filter(event => event instanceof NavigationEnd)
-      ).subscribe(() => {
-        this.applyDeviceClassToSidenavContainer();
-      });
+      this.router.events
+        .pipe(filter((event) => event instanceof NavigationEnd))
+        .subscribe(() => {
+          this.applyDeviceClassToSidenavContainer();
+        });
 
       this.applyDeviceClassToSidenavContainer();
     }
@@ -44,4 +61,16 @@ export class DeviceService {
       }
     }
   }
+
+  readonly viewportWidth = toSignal(
+    isPlatformBrowser(this.platformId)
+      ? fromEvent(window, 'resize').pipe(
+          auditTime(100),
+          map(() => window.innerWidth),
+          startWith(window.innerWidth),
+          distinctUntilChanged()
+        )
+      : of(0),
+    { initialValue: 0 }
+  );
 }

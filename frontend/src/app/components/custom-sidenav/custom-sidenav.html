@@ -1,13 +1,14 @@
 <mat-nav-list>
-  @for (item of menuItems(); track item.key) {
-    <button
+  @for (item of menuItems(); track item.route) {
+    <a
       mat-list-item
-      type="button"
-      (click)="select.emit(item.key)"
-      [class.selected-menu-item]="activeKey === item.key"
+      [routerLink]="item.route"
+      routerLinkActive="selected-menu-item"
+      #rla="routerLinkActive"
+      [activated]="rla.isActive"
     >
       <mat-icon
-        [fontSet]="(activeKey === item.key) ? 'material-icons' : 'material-icons-outlined'"
+        [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'"
         matListItemIcon
         [style.marginLeft]="iconMargin()"
       >
@@ -17,6 +18,6 @@
       @if (!sideNavCollapsed()) {
         <span matListItemTitle>{{ item.label }}</span>
       }
-    </button>
+    </a>
   }
 </mat-nav-list>

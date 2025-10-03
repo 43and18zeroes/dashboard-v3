@@ -15,38 +15,12 @@
 </mat-toolbar>
 <mat-sidenav-container>
   <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">
-    <app-custom-sidenav
-      [collapsed]="collapsed()"
-      [activeKey]="selectedView()"
-      (select)="selectedView.set($event)"
-    ></app-custom-sidenav>
+    <app-custom-sidenav [collapsed]="collapsed()"></app-custom-sidenav>
   </mat-sidenav>
   <mat-sidenav-content
     [style.margin-left]="contentMarginLeft()"
     (touchend)="collapseSidenav()"
   >
-    @switch (selectedView()) { @case ('dashboard') { @defer (on immediate;
-    prefetch on idle) {
-    <app-dashboard class="page__enter"></app-dashboard>
-    } @placeholder {
-    <div class="p-6">Dashboard wird vorbereitet…</div>
-    } @loading { <mat-progress-bar mode="indeterminate"></mat-progress-bar> }
-    @error {
-    <div class="p-6 text-warn">Ups, Dashboard konnte nicht geladen werden.</div>
-    } } @case ('charts') { @defer (on immediate; prefetch on idle) {
-    <app-charts class="page__enter"></app-charts>
-    } @placeholder {
-    <div class="p-6">Charts werden vorbereitet…</div>
-    } @loading { <mat-progress-bar mode="indeterminate"></mat-progress-bar> }
-    @error {
-    <div class="p-6 text-warn">Charts konnten nicht geladen werden.</div>
-    } } @case ('tables') { @defer (on immediate; prefetch on idle) {
-    <app-tables class="page__enter"></app-tables>
-    } @placeholder {
-    <div class="p-6">Tables werden vorbereitet…</div>
-    } @loading { <mat-progress-bar mode="indeterminate"></mat-progress-bar> }
-    @error {
-    <div class="p-6 text-warn">Tables konnten nicht geladen werden.</div>
-    } } }
+    <router-outlet />
   </mat-sidenav-content>
 </mat-sidenav-container>

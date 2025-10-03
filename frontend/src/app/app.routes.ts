@@ -1,19 +1,19 @@
 import { Routes } from '@angular/router';
+import { Start } from './pages/start/start';
+import { Info } from './pages/info/info';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
   {
-    path: 'dashboard',
-    loadComponent: () =>
-      import('./pages/dashboard/dashboard').then((m) => m.Dashboard),
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'start',
   },
   {
-    path: 'charts',
-    loadComponent: () => import('./pages/charts/charts').then((m) => m.Charts),
+    path: 'start',
+    loadComponent: () => import('./pages/start/start').then((m) => m.Start),
   },
   {
-    path: 'tables',
-    loadComponent: () => import('./pages/tables/tables').then((m) => m.Tables),
+    path: 'info',
+    loadComponent: () => import('./pages/info/info').then((m) => m.Info),
   },
-  { path: '**', redirectTo: 'dashboard' },
 ];
